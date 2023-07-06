@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import ServiciosView from '../views/ServiciosView.vue'
+import CarritoView from '../views/CarritoView.vue'
+import ContactView from '../views/ContactView.vue'
 
 Vue.use(VueRouter)
 
@@ -19,7 +22,22 @@ const routes = [
     component: function () {
       return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
     }
-  }
+  },
+  {
+    path: '/servicios',
+    name: 'servicios',
+    component: ServiciosView
+  },
+  {
+    path: '/carrito',
+    name: 'carrito',
+    component: CarritoView
+  },
+  {
+    path: '/contact',
+    name: 'contact',
+    component: ContactView
+  },
 ]
 
 const router = new VueRouter({
