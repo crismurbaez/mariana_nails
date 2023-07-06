@@ -35,7 +35,7 @@
             alt="Mariana_nails Logo"
             class="shrink mr-2 rounded-pill"
             contain
-            src="/imagenes/logo_mariana_nails.png"
+            src="/imagenes/logo-.png"
             transition="scale-transition"
             width="150"
           />
@@ -65,7 +65,7 @@
           <router-link to="/"
             ><img
               class="nav-icon"
-              src="/imagenes/logo_mariana_nails.png"
+              src="/imagenes/logo-.png"
               alt="logo"
               width="150"
             />
