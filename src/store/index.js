@@ -334,6 +334,41 @@ export default new Vuex.Store({
         }
       }
     },
+
+    listButton() {
+      var url = "https://codoweb.pythonanywhere.com/servicios";
+
+      fetch(url)
+        .then(function (response) {
+          if (response.ok) {
+            return response.json();
+          } else {
+            throw new Error("Error: " + response.statusText);
+          }
+        })
+        .then(function (responseData) {
+          var services = responseData;
+          var message = "";
+          services.forEach(function (service) {
+            message += "Código: " + service.codigo + "\n";
+            message += "Aplicación: " + service.aplicacion + "\n";
+            message += "Servicio: " + service.servicio + "\n";
+            message += "Precio: " + service.precio + "\n\n";
+          });
+          console.log(message);
+          swal({
+            title: `Lista de servicios`,
+            text: `${message}`,
+            icon: null,
+            buttons: true,
+          });
+        })
+        .catch(function (error) {
+          alert(error.message);
+        });
+    },
+
+
     // obtenerCarrito() {
     //   fetch(URL + "carrito")
     //     .then((response) => response.json())

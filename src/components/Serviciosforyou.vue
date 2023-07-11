@@ -10,7 +10,7 @@
           </router-link>
         </div>
         <h2 class="texto-nav servicios-h">Servicios</h2>
-        <span>{{ servicios }}</span>
+        <!-- <span>{{ servicios }}</span> -->
       </div>
       <hr class="bg-oscuro" style="margin-bottom: 4rem" />
       <!-- Manicura -->
