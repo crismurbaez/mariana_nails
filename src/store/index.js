@@ -140,7 +140,9 @@ export default new Vuex.Store({
         //     })
 
         state.count = 1;
-        state.total = state.cart[0].data.servicio.precio;
+        console.log('---------------------------------------------------', state.cart[0].data.precio)
+        state.total = state.cart[0].data.precio;
+
         totalPrecio = state.total;
         swal({
           title: `${state.cart[0].data.servicio}`,
@@ -165,7 +167,7 @@ export default new Vuex.Store({
           state.cart[indice].cantidad = cantidad;
           state.count++;
           totalPrecio = state.total
-          state.total = totalPrecio + state.cart[indice].data.servicio.precio;
+          state.total = totalPrecio + state.cart[indice].data.precio;
 
           // swal({
           //   title: `Se agregó una unidad más  `,
@@ -180,7 +182,7 @@ export default new Vuex.Store({
           state.cart.push({ data, cantidad: 1, id: id });
           state.count++;
           totalPrecio = state.total
-          state.total = totalPrecio + data.servicio.precio;
+          state.total = totalPrecio + data.precio;
           swal({
             title: `${data.servicio}`,
             text: `se agregó al carrito`,
@@ -197,6 +199,7 @@ export default new Vuex.Store({
       let indice = -1;
       let cantidad = 0;
       let eliminado = 0;
+      let totalPrecio = 0;
       if (state.cart.length === 0) {
         swal({
           title: `Carrito Vacío`,
@@ -222,7 +225,7 @@ export default new Vuex.Store({
           for (let index = 0; index < cantidad; index++) {
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[indice].data.servicio.precio;
+            state.total = totalPrecio - state.cart[indice].data.precio;
           }
 
           //cuando funcione la base de datos agregar este código y adaptarlo
@@ -270,6 +273,7 @@ export default new Vuex.Store({
       let indice = -1;
       let cantidad = 0;
       let eliminado = 0;
+      let totalPrecio = 0;
       if (state.cart.length === 0) {
         // fetch(URL + 'carrito', {
         //     method: 'DELETE',
@@ -315,7 +319,7 @@ export default new Vuex.Store({
             state.cart[indice].cantidad = cantidad;
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[indice].data.servicio.precio;
+            state.total = totalPrecio - state.cart[indice].data.precio;
 
             //lo quito porque es redundante
 

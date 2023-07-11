@@ -63,9 +63,9 @@
                 </td>
               </tr>
               <tr>
-                <!-- <td>TOTAL</td>
+                <td>TOTAL</td>
                 <td>{{ total }}</td>
-                <td>{{ count }}</td> -->
+                <td>{{ count }}</td>
               </tr>
             </tbody>
           </table>
