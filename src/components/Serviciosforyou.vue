@@ -10,6 +10,7 @@
           </router-link>
         </div>
         <h2 class="texto-nav servicios-h">Servicios</h2>
+        <span>{{ servicios }}</span>
       </div>
       <hr class="bg-oscuro" style="margin-bottom: 4rem" />
       <!-- Manicura -->
@@ -26,7 +27,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="(data, index) in servicios" :key="index">
+                <tr v-for="(data, index) in data1" :key="index">
                   <td>{{ data.servicio }}</td>
                   <td>{{ data.precio }}</td>
                   <td>
@@ -155,7 +156,7 @@
 <script>
 import swal from "sweetalert";
 import axios from "axios";
-import { mapState, mapMutations } from "vuex";
+import { mapState, mapMutations, mapActions } from "vuex";
 
 export default {
   name: "Servicios",
@@ -167,19 +168,13 @@ export default {
 
     section3: "Pestañas",
     mostrarCarrito: false,
-    servicios: [],
   }),
   computed: {
-    ...mapState(["data1", "data2", "data3", "cart", "count"]),
+    ...mapState(["data1", "data2", "data3", "cart", "count", "servicios"]),
   },
   methods: {
-    ...mapMutations([
-      "addCart",
-      "obtenerServicios",
-      "trashCart",
-      "minusCart",
-      "obtenerCarrito",
-    ]),
+    ...mapActions(["obtenerServicios"]),
+    ...mapMutations(["addCart", "trashCart", "minusCart"]),
     created() {
       function gallery() {
         const gallery = document.querySelector(".gallery");
@@ -278,8 +273,11 @@ export default {
     },
   },
   beforeCreate() {
+    // obtenerServicios(data);
+    this.$store.state.data1 = [];
+    this.$store.state.data2 = [];
+    this.$store.state.data3 = [];
     const url = "https://codoweb.pythonanywhere.com";
-
     fetch(url + "/servicios", {
       method: "GET",
       headers: {
@@ -289,13 +287,27 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         console.log("Response received:", data);
-        this.servicios = [...data];
+        this.$store.state.servicios = [...data];
+        // this.$store.state.data1 = [...data];
+        for (let i = 0; i < data.length; i++) {
+          if (data[i].aplicacion === "Manos") {
+            this.$store.state.data1.push(data[i]);
+          }
+          if (data[i].aplicacion === "Pies") {
+            this.$store.state.data2.push(data[i]);
+          }
+          if (data[i].aplicacion === "Pestañas") {
+            this.$store.state.data3.push(data[i]);
+          }
+        }
         // Handle the response data as needed
       })
       .catch((error) => {
         console.error("Error:", error);
         // Handle any errors that occur during the request
       });
+    //redistribuyo el contenido de servicios para que se muestre en los tres sectores
+    //diferentes: Manos, Pies y Pestañas.
   },
 };
 </script>

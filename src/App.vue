@@ -1,8 +1,9 @@
 <template>
   <v-app class="z-10">
+    <!-- barra de menú -->
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
-        <!-- boton de menu hamburguesa -->
+        <!-- boton de menu responsive -->
         <v-menu
           class="shrink mt-1 hidden-md-and-up"
           contain
@@ -55,10 +56,12 @@
       </v-btn>
     </v-app-bar>
 
+    <!-- renderizado de páginas -->
     <v-main>
       <router-view />
     </v-main>
 
+    <!-- footer -->
     <v-footer color="primary" dark>
       <div class="footer-principal" id="footer">
         <div class="footer-col-uno">
@@ -118,6 +121,7 @@ export default {
       { nombre: "Servicios", ruta: "/servicios" },
       { nombre: "Carrito", ruta: "/carrito" },
       { nombre: "Contacto", ruta: "/contact" },
+      { nombre: "Administrador", ruta: "/admin" },
     ],
   }),
   methods: {

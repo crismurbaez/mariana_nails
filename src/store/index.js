@@ -5,129 +5,109 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    servicios: [],
     cart: [],
     count: 0,
+    servicios: [],
     data1: [
-      {
-        codigo: 1,
-        aplicacion: "Manos",
-        servicio: "Manicura",
-        precio: "$2500",
-      },
-      {
-        codigo: 2,
-        aplicacion: "Manos",
-        servicio: "Remoción de gel",
-        precio: "$1000",
-      },
-      {
-        codigo: 3,
-        aplicacion: "Manos",
-        servicio: "Uñas acrílico",
-        precio: "$4500",
-      },
-      {
-        codigo: 4,
-        aplicacion: "Manos",
-        servicio: "Uñas Gel",
-        precio: "$4000",
-      },
-      {
-        codigo: 5,
-        aplicacion: "Manos",
-        servicio: "Nail Art",
-        precio: "$1000",
-      },
+      // {
+      //   codigo: 1,
+      //   aplicacion: "Manos",
+      //   servicio: "Manicura",
+      //   precio: "$2500",
+      // },
+      // {
+      //   codigo: 2,
+      //   aplicacion: "Manos",
+      //   servicio: "Remoción de gel",
+      //   precio: "$1000",
+      // },
+      // {
+      //   codigo: 3,
+      //   aplicacion: "Manos",
+      //   servicio: "Uñas acrílico",
+      //   precio: "$4500",
+      // },
+      // {
+      //   codigo: 4,
+      //   aplicacion: "Manos",
+      //   servicio: "Uñas Gel",
+      //   precio: "$4000",
+      // },
+      // {
+      //   codigo: 5,
+      //   aplicacion: "Manos",
+      //   servicio: "Nail Art",
+      //   precio: "$1000",
+      // },
     ],
     data2: [
-      {
-        codigo: 6,
-        aplicacion: "Pies",
-        servicio: "Pedicura",
-        precio: "$3500",
-      },
-      {
-        codigo: 7,
-        aplicacion: "Pies",
-        servicio: "Remoción de gel",
-        precio: "$1000",
-      },
-      {
-        codigo: 8,
-        aplicacion: "Pies",
-        servicio: "Pedicura + gel",
-        precio: "$5500",
-      },
-      {
-        codigo: 9,
-        aplicacion: "Pies",
-        servicio: "Pedicura + mascarilla",
-        precio: "$6000",
-      },
-      {
-        codigo: 10,
-        aplicacion: "Pies",
-        servicio: "Nail Art",
-        precio: "$1000",
-      },
+      // {
+      //   codigo: 6,
+      //   aplicacion: "Pies",
+      //   servicio: "Pedicura",
+      //   precio: "$3500",
+      // },
+      // {
+      //   codigo: 7,
+      //   aplicacion: "Pies",
+      //   servicio: "Remoción de gel",
+      //   precio: "$1000",
+      // },
+      // {
+      //   codigo: 8,
+      //   aplicacion: "Pies",
+      //   servicio: "Pedicura + gel",
+      //   precio: "$5500",
+      // },
+      // {
+      //   codigo: 9,
+      //   aplicacion: "Pies",
+      //   servicio: "Pedicura + mascarilla",
+      //   precio: "$6000",
+      // },
+      // {
+      //   codigo: 10,
+      //   aplicacion: "Pies",
+      //   servicio: "Nail Art",
+      //   precio: "$1000",
+      // },
     ],
     data3: [
-      {
-        codigo: 11,
-        aplicacion: "Pestañas",
-        servicio: "Lifting",
-        precio: "$2300",
-      },
-      {
-        codigo: 12,
-        aplicacion: "Pestañas",
-        servicio: "Extensiones clásicas",
-        precio: "$1500",
-      },
-      {
-        codigo: 13,
-        aplicacion: "Pestañas",
-        servicio: "Extensiones 2D",
-        precio: "$2500",
-      },
-      {
-        codigo: 14,
-        aplicacion: "Pestañas",
-        servicio: "Extensiones 3D",
-        precio: "$3000",
-      },
-      {
-        codigo: 15,
-        aplicacion: "Pestañas",
-        servicio: "Extensiones rusas",
-        precio: "$2000",
-      },
+      // {
+      //   codigo: 11,
+      //   aplicacion: "Pestañas",
+      //   servicio: "Lifting",
+      //   precio: "$2300",
+      // },
+      // {
+      //   codigo: 12,
+      //   aplicacion: "Pestañas",
+      //   servicio: "Extensiones clásicas",
+      //   precio: "$1500",
+      // },
+      // {
+      //   codigo: 13,
+      //   aplicacion: "Pestañas",
+      //   servicio: "Extensiones 2D",
+      //   precio: "$2500",
+      // },
+      // {
+      //   codigo: 14,
+      //   aplicacion: "Pestañas",
+      //   servicio: "Extensiones 3D",
+      //   precio: "$3000",
+      // },
+      // {
+      //   codigo: 15,
+      //   aplicacion: "Pestañas",
+      //   servicio: "Extensiones rusas",
+      //   precio: "$2000",
+      // },
     ],
   },
   getters: {
   },
   mutations: {
-    obtenerServicios(state) {
-      const url = "https://codoweb.pythonanywhere.com"
-
-      fetch(url + "/servicios", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Response received:", data);
-          state.servicios = [...data];
-          // Handle the response data as needed
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          // Handle any errors that occur during the request
-        });
-    },
     addCart(state, data) {
       let id = 1;
       let coincidencia = false;
@@ -353,20 +333,41 @@ export default new Vuex.Store({
           });
         }
       }
-    }, obtenerCarrito() {
-      fetch(URL + "carrito")
-        .then((response) => response.json())
-        .then((data) => {
-          state.cart = data;
-          this.mostrarCarrito = true;
-        })
-        .catch((error) => {
-          console.error("Error al obtener el carrito:", error);
-          alert("Error al obtener el carrito.");
-        });
     },
+    // obtenerCarrito() {
+    //   fetch(URL + "carrito")
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       state.cart = data;
+    //       this.mostrarCarrito = true;
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error al obtener el carrito:", error);
+    //       alert("Error al obtener el carrito.");
+    //     });
+    // },
   },
   actions: {
+    // obtenerServicios(state, data) {
+    //   const url = "https://codoweb.pythonanywhere.com"
+
+    //   fetch(url + "/servicios", {
+    //     method: "GET",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //   })
+    //     .then((response) => response.json())
+    //     .then((data) => {
+    //       console.log("Response received:", data);
+    //       state.servicios = [...data];
+    //       // Handle the response data as needed
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error:", error);
+    //       // Handle any errors that occur during the request
+    //     });
+    // },
   },
   modules: {
   }

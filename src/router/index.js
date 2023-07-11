@@ -4,6 +4,7 @@ import HomeView from '../views/HomeView.vue'
 import ServiciosView from '../views/ServiciosView.vue'
 import CarritoView from '../views/CarritoView.vue'
 import ContactView from '../views/ContactView.vue'
+import CrudServiciosView from '../views/CrudServiciosView.vue'
 
 Vue.use(VueRouter)
 
@@ -37,6 +38,11 @@ const routes = [
     path: '/contact',
     name: 'contact',
     component: ContactView
+  },
+  {
+    path: '/admin',
+    name: 'administrador',
+    component: CrudServiciosView
   },
 ]
 
