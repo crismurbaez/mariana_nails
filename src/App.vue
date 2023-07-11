@@ -120,8 +120,8 @@ export default {
       { nombre: "About", ruta: "/about" },
       { nombre: "Servicios", ruta: "/servicios" },
       { nombre: "Carrito", ruta: "/carrito" },
-      { nombre: "Contacto", ruta: "/contact" },
       { nombre: "Administrador", ruta: "/admin" },
+      { nombre: "Contacto", ruta: "/contact" },
     ],
   }),
   methods: {
