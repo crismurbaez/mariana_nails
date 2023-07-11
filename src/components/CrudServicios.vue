@@ -1,6 +1,7 @@
 <template>
   <div class="centrado">
-    <h1 class="titulo">{{ titulo }}</h1>
+    <br /><br />
+    <h2 class="texto-nav servicios-h">{{ titulo }}</h2>
     <br /><br />
     <button id="listButton" class="boton" v-on:click="listButton(e)">
       List Services
@@ -155,11 +156,18 @@ export default {
             buttons: false,
             timer: 1000,
           });
-          alert(responseData.message);
+          //   alert(responseData.message);
           form.reset();
         })
         .catch(function (error) {
-          alert(error.message);
+          swal({
+            title: `Error`,
+            text: `${error.message}`,
+            icon: "error",
+            buttons: false,
+            timer: 2000,
+          });
+          //   alert(error.message);
         });
     },
     deleteForm(e) {
@@ -179,11 +187,25 @@ export default {
           }
         })
         .then(function (responseData) {
-          alert(responseData.message);
+          swal({
+            title: `Deleted`,
+            text: `${responseData.message}`,
+            icon: "success",
+            buttons: false,
+            timer: 2000,
+          });
+          //   alert(responseData.message);
           form.reset();
         })
         .catch(function (error) {
-          alert(error.message);
+          swal({
+            title: `Error`,
+            text: `${error.message}`,
+            icon: "error",
+            buttons: false,
+            timer: 2000,
+          });
+          //   alert(error.message);
         });
     },
     updateForm(e) {
@@ -213,11 +235,26 @@ export default {
           }
         })
         .then(function (responseData) {
-          alert(responseData.message);
+          swal({
+            title: `Actualizado`,
+            text: `${responseData.message}`,
+            icon: "success",
+            buttons: false,
+            timer: 2000,
+          });
+          //   alert(responseData.message);
+
           form.reset();
         })
         .catch(function (error) {
-          alert(error.message);
+          swal({
+            title: `Error`,
+            text: `${error.message}`,
+            icon: "error",
+            buttons: false,
+            timer: 2000,
+          });
+          //   alert(error.message);
         });
     },
   },

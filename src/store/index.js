@@ -367,8 +367,11 @@ export default new Vuex.Store({
           alert(error.message);
         });
     },
+    saveCart() {
+      const parsed = JSON.stringify(state.cart);
+      window.localStorage.setItem('cart', parsed);
 
-
+    },
     // obtenerCarrito() {
     //   fetch(URL + "carrito")
     //     .then((response) => response.json())

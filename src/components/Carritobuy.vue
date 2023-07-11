@@ -80,6 +80,22 @@ export default {
     servicios: [],
     mostrarCarrito: false,
   }),
+  // mounted() {
+  //   if (window.localStorage.getItem("cart")) {
+  //     try {
+  //       this.$store.state.cart = JSON.parse(
+  //         window.localStorage.getItem("cart")
+  //       );
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   } else {
+  //     window.localStorage.setItem(
+  //       "cart",
+  //       JSON.stringify(this.$store.state.cart)
+  //     );
+  //   }
+  // },
   computed: {
     ...mapState(["data1", "data2", "data3", "cart", "count"]),
   },
@@ -89,7 +105,7 @@ export default {
       "obtenerServicios",
       "trashCart",
       "minusCart",
-      "obtenerCarrito",
+      "saveCart",
     ]),
   },
 };
