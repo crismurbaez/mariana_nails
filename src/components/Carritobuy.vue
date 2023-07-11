@@ -36,7 +36,9 @@
                             -->
               <tr v-for="c in cart" :key="c.id">
                 <td>{{ c.data.servicio }}</td>
-                <td>{{ c.data.precio }}</td>
+                <td>
+                  {{ c.data.precio * c.cantidad }}
+                </td>
                 <td>{{ c.cantidad }}</td>
                 <td>
                   <img
@@ -60,7 +62,11 @@
                   />
                 </td>
               </tr>
-              <tr></tr>
+              <tr>
+                <!-- <td>TOTAL</td>
+                <td>{{ total }}</td>
+                <td>{{ count }}</td> -->
+              </tr>
             </tbody>
           </table>
         </div>
@@ -97,7 +103,7 @@ export default {
   //   }
   // },
   computed: {
-    ...mapState(["data1", "data2", "data3", "cart", "count"]),
+    ...mapState(["data1", "data2", "data3", "cart", "count", "total"]),
   },
   methods: {
     ...mapMutations([

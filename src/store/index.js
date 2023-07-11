@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     cart: [],
     count: 0,
+    total: 0,
     servicios: [],
     data1: [
       // {
@@ -114,6 +115,7 @@ export default new Vuex.Store({
       let indice = -1;
       let cantidad = 0;
       let eliminado = 0;
+      let totalPrecio = 0;
       if (state.cart.length === 0) {
         state.cart.push({ data, cantidad: 1, id: id });
         //este push a variable local, se cambiará por el post que me guarda en base de datos
@@ -138,6 +140,8 @@ export default new Vuex.Store({
         //     })
 
         state.count = 1;
+        state.total = state.cart[0].data.servicio.precio;
+        totalPrecio = state.total;
         swal({
           title: `${state.cart[0].data.servicio}`,
           text: `se agregó al carrito`,
@@ -160,6 +164,8 @@ export default new Vuex.Store({
           cantidad = state.cart[indice].cantidad + 1;
           state.cart[indice].cantidad = cantidad;
           state.count++;
+          totalPrecio = state.total
+          state.total = totalPrecio + state.cart[indice].data.servicio.precio;
 
           // swal({
           //   title: `Se agregó una unidad más  `,
@@ -173,6 +179,8 @@ export default new Vuex.Store({
           id = id + 1;
           state.cart.push({ data, cantidad: 1, id: id });
           state.count++;
+          totalPrecio = state.total
+          state.total = totalPrecio + data.servicio.precio;
           swal({
             title: `${data.servicio}`,
             text: `se agregó al carrito`,
@@ -213,6 +221,8 @@ export default new Vuex.Store({
           eliminado = state.cart.splice([indice], 1);
           for (let index = 0; index < cantidad; index++) {
             state.count--;
+            totalPrecio = state.total
+            state.total = totalPrecio - state.cart[indice].data.servicio.precio;
           }
 
           //cuando funcione la base de datos agregar este código y adaptarlo
@@ -304,6 +314,8 @@ export default new Vuex.Store({
             cantidad = state.cart[indice].cantidad - 1;
             state.cart[indice].cantidad = cantidad;
             state.count--;
+            totalPrecio = state.total
+            state.total = totalPrecio - state.cart[indice].data.servicio.precio;
 
             //lo quito porque es redundante
 
