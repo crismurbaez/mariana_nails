@@ -225,6 +225,10 @@ export default {
 </script>
 <style>
 /* Formulario */
+.centrado {
+  text-align: center;
+  background-color: var(--claro);
+}
 .titulo {
   text-align: center;
 }
@@ -232,7 +236,7 @@ export default {
 .boton {
   border-radius: 10px;
   padding: 5px;
-  background-color: var(--oscuro);
+  background-color: white;
   width: 150px;
   justify-content: center;
 }
@@ -246,7 +250,7 @@ form {
   width: auto;
   padding: 2rem;
   border: 1px solid var(--border);
-  background-color: var(--claro);
+  background-color: var(--claro2);
   margin: 10px;
   border-radius: 10px;
 }
@@ -270,10 +274,7 @@ form textarea {
 }
 .submit {
   background-color: var(--oscuro);
-}
-
-.centrado {
-  text-align: center;
+  height: 35px;
 }
 
 .b1 {
