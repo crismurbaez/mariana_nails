@@ -126,7 +126,7 @@ export default {
         e.target.elements.codigo.value
       );
       var form = e.target;
-      var url = "https://codoweb.pythonanywhere.com/servicios";
+      var url = "https://back-end-mariana-nails.vercel.app";
       var data = JSON.stringify({
         codigo: form.elements.codigo.value,
         aplicacion: form.elements.aplicacion.value,
@@ -134,7 +134,7 @@ export default {
         precio: parseFloat(form.elements.precio.value),
       });
 
-      fetch(url, {
+      fetch(url + "/servicios", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -154,7 +154,7 @@ export default {
             text: ``,
             icon: "success",
             buttons: false,
-            timer: 1000,
+            timer: 3000,
           });
           //   alert(responseData.message);
           form.reset();
@@ -173,7 +173,7 @@ export default {
     deleteForm(e) {
       var form = e.target;
       var url =
-        "https://codoweb.pythonanywhere.com/servicios/" +
+        "http://crismurbae.pythonanywhere.com/servicios/" +
         form.elements.deleteCodigo.value;
 
       fetch(url, {
@@ -212,7 +212,7 @@ export default {
       // e.preventDefault();
       var form = e.target;
       var url =
-        "https://codoweb.pythonanywhere.com/servicios/" +
+        "http://crismurbae.pythonanywhere.com/servicios/" +
         form.elements.updateCodigo.value;
       var data = JSON.stringify({
         aplicacion: form.elements.updateAplicacion.value,

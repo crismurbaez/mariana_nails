@@ -109,6 +109,36 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    ///ESTE ES EL MISMO QUE TENGO EN CARRITOBUY EN MOUNTED(), DEBO VER CÓMO LLEVAR 
+    ///PARA QUE FUNCIONE BIEN
+    //HAY QUE ARREGLAR VARIOS PROBLEMAS
+    //NO SUBÍ AL GITHUB ESTE CÓDIGO!!!!!!!!!!!!
+    //HAY QUE ARREGLAR:
+    //CUANDO ELIMINO UN SERVICIO NO SE ELIMINA DE LOCAL
+    //CUANDO RESTO UNA CONTIDAD NO SE MODIFICA EN LOCAL
+    //EN OCASIONES FUNCIONA MAL EL CÁLCULO DE COUNT Y TOTAL DEL PRECIO
+    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE
+    obtenerCarrito() {
+      if (localStorage.getItem("cart")) {
+        try {
+          state.cart = JSON.parse(localStorage.getItem("cart"));
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      let carrito = state.cart;
+      let cantidad = 0;
+      let totalPrecio = 0;
+      for (let i = 0; i < carrito.length; i++) {
+        cantidad = cantidad + carrito[i].cantidad;
+        totalPrecio = totalPrecio + carrito[i].data.precio * carrito[i].cantidad;
+      }
+      state.count = cantidad;
+      state.total = totalPrecio;
+      console.log("cart-----------------------", state.cart);
+      console.log("count-----------------------", state.count);
+      console.log("total-----------------------", state.total);
+    },
     addCart(state, data) {
       let id = 1;
       let coincidencia = false;
@@ -118,6 +148,7 @@ export default new Vuex.Store({
       let totalPrecio = 0;
       if (state.cart.length === 0) {
         state.cart.push({ data, cantidad: 1, id: id });
+        localStorage.setItem("cart", JSON.stringify(state.cart));
         //este push a variable local, se cambiará por el post que me guarda en base de datos
 
         // fetch(URL + 'carrito', {
@@ -168,7 +199,7 @@ export default new Vuex.Store({
           state.count++;
           totalPrecio = state.total
           state.total = totalPrecio + state.cart[indice].data.precio;
-
+          localStorage.setItem("cart", JSON.stringify(state.cart));
           // swal({
           //   title: `Se agregó una unidad más  `,
           //   text: `del servicio ${data.servicio}`,
@@ -183,6 +214,7 @@ export default new Vuex.Store({
           state.count++;
           totalPrecio = state.total
           state.total = totalPrecio + data.precio;
+          localStorage.setItem("cart", JSON.stringify(state.cart));
           swal({
             title: `${data.servicio}`,
             text: `se agregó al carrito`,
@@ -352,9 +384,9 @@ export default new Vuex.Store({
     },
 
     listButton() {
-      var url = "https://codoweb.pythonanywhere.com/servicios";
+      var url = "https://back-end-mariana-nails.vercel.app";
 
-      fetch(url)
+      fetch(url + "/servicios")
         .then(function (response) {
           if (response.ok) {
             return response.json();
@@ -363,7 +395,7 @@ export default new Vuex.Store({
           }
         })
         .then(function (responseData) {
-          var services = responseData;
+          var services = responseData.services;
           var message = "";
           services.forEach(function (service) {
             message += "Código: " + service.codigo + "\n";
@@ -371,7 +403,6 @@ export default new Vuex.Store({
             message += "Servicio: " + service.servicio + "\n";
             message += "Precio: " + service.precio + "\n\n";
           });
-          console.log(message);
           swal({
             title: `Lista de servicios`,
             text: `${message}`,

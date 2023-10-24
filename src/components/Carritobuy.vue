@@ -86,22 +86,36 @@ export default {
     servicios: [],
     mostrarCarrito: false,
   }),
-  // mounted() {
-  //   if (window.localStorage.getItem("cart")) {
-  //     try {
-  //       this.$store.state.cart = JSON.parse(
-  //         window.localStorage.getItem("cart")
-  //       );
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   } else {
-  //     window.localStorage.setItem(
-  //       "cart",
-  //       JSON.stringify(this.$store.state.cart)
-  //     );
-  //   }
-  // },
+  mounted() {
+    ///ESTE ES EL MISMO QUE TENGO EN CARRITOBUY EN MOUNTED(), DEBO VER CÓMO LLEVAR
+    ///PARA QUE FUNCIONE BIEN
+    //HAY QUE ARREGLAR VARIOS PROBLEMAS
+    //NO SUBÍ AL GITHUB ESTE CÓDIGO!!!!!!!!!!!!
+    //HAY QUE ARREGLAR:
+    //CUANDO ELIMINO UN SERVICIO NO SE ELIMINA DE LOCAL
+    //CUANDO RESTO UNA CONTIDAD NO SE MODIFICA EN LOCAL
+    //EN OCASIONES FUNCIONA MAL EL CÁLCULO DE COUNT Y TOTAL DEL PRECIO
+    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE
+    if (localStorage.getItem("cart")) {
+      try {
+        this.$store.state.cart = JSON.parse(localStorage.getItem("cart"));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    let carrito = this.$store.state.cart;
+    let cantidad = 0;
+    let totalPrecio = 0;
+    for (let i = 0; i < carrito.length; i++) {
+      cantidad = cantidad + carrito[i].cantidad;
+      totalPrecio = totalPrecio + carrito[i].data.precio * carrito[i].cantidad;
+    }
+    this.$store.state.count = cantidad;
+    this.$store.state.total = totalPrecio;
+    console.log("cart-----------------------", this.$store.state.cart);
+    console.log("count-----------------------", this.$store.state.count);
+    console.log("total-----------------------", this.$store.state.total);
+  },
   computed: {
     ...mapState(["data1", "data2", "data3", "cart", "count", "total"]),
   },

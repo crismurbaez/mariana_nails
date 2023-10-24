@@ -277,7 +277,7 @@ export default {
     this.$store.state.data1 = [];
     this.$store.state.data2 = [];
     this.$store.state.data3 = [];
-    const url = "https://codoweb.pythonanywhere.com";
+    const url = "https://back-end-mariana-nails.vercel.app";
     fetch(url + "/servicios", {
       method: "GET",
       headers: {
@@ -286,7 +286,8 @@ export default {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Response received:", data);
+        data = data.services;
+        console.log("Response received--------------------:", data);
         this.$store.state.servicios = [...data];
         // this.$store.state.data1 = [...data];
         for (let i = 0; i < data.length; i++) {
