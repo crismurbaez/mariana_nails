@@ -287,9 +287,7 @@ export default {
       .then((response) => response.json())
       .then((data) => {
         data = data.services;
-        console.log("Response received--------------------:", data);
         this.$store.state.servicios = [...data];
-        // this.$store.state.data1 = [...data];
         for (let i = 0; i < data.length; i++) {
           if (data[i].aplicacion === "Manos") {
             this.$store.state.data1.push(data[i]);

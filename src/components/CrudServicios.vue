@@ -3,7 +3,7 @@
     <br /><br />
     <h2 class="texto-nav servicios-h">{{ titulo }}</h2>
     <br /><br />
-    <button id="listButton" class="boton" v-on:click="listButton(e)">
+    <button id="listButton" class="boton" v-on:click="listButton()">
       List Services
     </button>
     <br /><br />
@@ -120,11 +120,6 @@ export default {
   methods: {
     ...mapMutations(["listButton"]),
     submitFormServ(e) {
-      // e.preventDefault();
-      console.log(
-        "llegamos al submit-------------------------------",
-        e.target.elements.codigo.value
-      );
       var form = e.target;
       var url = "https://back-end-mariana-nails.vercel.app";
       var data = JSON.stringify({
@@ -134,7 +129,7 @@ export default {
         precio: parseFloat(form.elements.precio.value),
       });
 
-      fetch(url + "/servicios", {
+      fetch(url + "/servicio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -156,7 +151,6 @@ export default {
             buttons: false,
             timer: 3000,
           });
-          //   alert(responseData.message);
           form.reset();
         })
         .catch(function (error) {
@@ -167,16 +161,13 @@ export default {
             buttons: false,
             timer: 2000,
           });
-          //   alert(error.message);
         });
     },
     deleteForm(e) {
       var form = e.target;
-      var url =
-        "http://crismurbae.pythonanywhere.com/servicios/" +
-        form.elements.deleteCodigo.value;
-
-      fetch(url, {
+      var url = "https://back-end-mariana-nails.vercel.app";
+      var codigoDelete = form.elements.deleteCodigo.value;
+      fetch(url + "/servicio/" + codigoDelete, {
         method: "DELETE",
       })
         .then(function (response) {
@@ -194,7 +185,6 @@ export default {
             buttons: false,
             timer: 2000,
           });
-          //   alert(responseData.message);
           form.reset();
         })
         .catch(function (error) {
@@ -205,22 +195,21 @@ export default {
             buttons: false,
             timer: 2000,
           });
-          //   alert(error.message);
         });
     },
     updateForm(e) {
-      // e.preventDefault();
       var form = e.target;
-      var url =
-        "http://crismurbae.pythonanywhere.com/servicios/" +
-        form.elements.updateCodigo.value;
+      var url = "https://back-end-mariana-nails.vercel.app";
+      var codigoUpdate = form.elements.updateCodigo.value;
       var data = JSON.stringify({
         aplicacion: form.elements.updateAplicacion.value,
         servicio: form.elements.updateServicio.value,
-        precio: parseFloat(form.elements.updatePrecio.value),
+        precio: form.elements.updatePrecio.value,
       });
-
-      fetch(url, {
+      // precio: parseFloat(form.elements.updatePrecio.value), por ahora recibo sólo Strings
+      // creo que lo voy a dejar así, porque sino siempre hay que cambiar los formatos,
+      // mejor cambiarlos cuando los recibo en el front de acuerdo a lo que quiero hacer
+      fetch(url + "/servicio/" + codigoUpdate, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -242,7 +231,6 @@ export default {
             buttons: false,
             timer: 2000,
           });
-          //   alert(responseData.message);
 
           form.reset();
         })
@@ -254,7 +242,6 @@ export default {
             buttons: false,
             timer: 2000,
           });
-          //   alert(error.message);
         });
     },
   },
