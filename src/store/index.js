@@ -384,9 +384,9 @@ export default new Vuex.Store({
     },
 
     listButton() {
-      var url = "https://back-end-mariana-nails.vercel.app";
+      var URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
 
-      fetch(url + "/servicios")
+      fetch(URL + "/servicios")
         .then(function (response) {
           if (response.ok) {
             return response.json();

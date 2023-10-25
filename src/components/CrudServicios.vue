@@ -114,6 +114,9 @@ export default {
     servicio: "",
     precio: "",
   }),
+  mounted() {
+    var URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
+  },
   computed: {
     ...mapState(["data1", "data2", "data3", "cart", "count", "servicios"]),
   },
@@ -121,15 +124,15 @@ export default {
     ...mapMutations(["listButton"]),
     submitFormServ(e) {
       var form = e.target;
-      var url = "https://back-end-mariana-nails.vercel.app";
+      var URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
       var data = JSON.stringify({
         codigo: form.elements.codigo.value,
         aplicacion: form.elements.aplicacion.value,
         servicio: form.elements.servicio.value,
-        precio: parseFloat(form.elements.precio.value),
+        precio: form.elements.precio.value,
       });
-
-      fetch(url + "/servicio", {
+      // precio: parseFloat(form.elements.precio.value),
+      fetch(URL + "/servicio", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -165,9 +168,9 @@ export default {
     },
     deleteForm(e) {
       var form = e.target;
-      var url = "https://back-end-mariana-nails.vercel.app";
+      var URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
       var codigoDelete = form.elements.deleteCodigo.value;
-      fetch(url + "/servicio/" + codigoDelete, {
+      fetch(URL + "/servicio/" + codigoDelete, {
         method: "DELETE",
       })
         .then(function (response) {
@@ -199,7 +202,7 @@ export default {
     },
     updateForm(e) {
       var form = e.target;
-      var url = "https://back-end-mariana-nails.vercel.app";
+      var URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
       var codigoUpdate = form.elements.updateCodigo.value;
       var data = JSON.stringify({
         aplicacion: form.elements.updateAplicacion.value,
@@ -209,7 +212,7 @@ export default {
       // precio: parseFloat(form.elements.updatePrecio.value), por ahora recibo sólo Strings
       // creo que lo voy a dejar así, porque sino siempre hay que cambiar los formatos,
       // mejor cambiarlos cuando los recibo en el front de acuerdo a lo que quiero hacer
-      fetch(url + "/servicio/" + codigoUpdate, {
+      fetch(URL + "/servicio/" + codigoUpdate, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
