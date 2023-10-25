@@ -201,7 +201,7 @@ export default new Vuex.Store({
             state.count--;
             totalPrecio = state.total
             state.total = totalPrecio - state.cart[state.indice].data.precio;
-            saveCart()
+            localStorage.setItem("cart", JSON.stringify(state.cart));
 
             swal({
               title: `Se quitó una unidad`,
