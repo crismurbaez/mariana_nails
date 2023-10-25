@@ -6,6 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     cart: [],
+    indice: -1,
     count: 0,
     total: 0,
     servicios: [],
@@ -24,7 +25,7 @@ export default new Vuex.Store({
     //CUANDO ELIMINO UN SERVICIO NO SE ELIMINA DE LOCAL
     //CUANDO RESTO UNA CONTIDAD NO SE MODIFICA EN LOCAL
     //EN OCASIONES FUNCIONA MAL EL CÁLCULO DE COUNT Y TOTAL DEL PRECIO
-    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE
+    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE-->listo
     obtenerCarrito() {
       if (localStorage.getItem("cart")) {
         try {
@@ -42,9 +43,6 @@ export default new Vuex.Store({
       }
       state.count = cantidad;
       state.total = totalPrecio;
-      console.log("cart-----------------------", state.cart);
-      console.log("count-----------------------", state.count);
-      console.log("total-----------------------", state.total);
     },
     addCart(state, data) {
       let id = 1;
@@ -54,31 +52,11 @@ export default new Vuex.Store({
       let eliminado = 0;
       let totalPrecio = 0;
       if (state.cart.length === 0) {
-        state.cart.push({ data, cantidad: 1, id: id });
-        localStorage.setItem("cart", JSON.stringify(state.cart));
-        //este push a variable local, se cambiará por el post que me guarda en base de datos
+        state.cart.push({ data, cantidad: 1, id: data._id.$oid });
 
-        // fetch(URL + 'carrito', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         codigo: producto.codigo,
-        //         cantidad: 1, // Agregamos una unidad al carrito
-        //     }),
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         alert(data.message)
-        //     })
-        //     .catch(error => {
-        //         console.error('Error al agregar el producto al carrito:', error)
-        //         alert('Error al agregar el producto al carrito.')
-        //     })
+        localStorage.setItem("cart", JSON.stringify(state.cart));
 
         state.count = 1;
-        console.log('---------------------------------------------------', state.cart[0].data.precio)
         state.total = state.cart[0].data.precio;
 
         totalPrecio = state.total;
@@ -107,17 +85,17 @@ export default new Vuex.Store({
           totalPrecio = state.total
           state.total = totalPrecio + state.cart[indice].data.precio;
           localStorage.setItem("cart", JSON.stringify(state.cart));
-          // swal({
-          //   title: `Se agregó una unidad más  `,
-          //   text: `del servicio ${data.servicio}`,
-          //   icon: "success",
-          //   buttons: false,
-          //   timer: 1000,
-          // });
+          swal({
+            title: `Se agregó una unidad más  `,
+            text: `del servicio ${data.servicio}`,
+            icon: "success",
+            buttons: false,
+            timer: 1000,
+          });
         } else {
           //si el servicio no está en el carrito, se agrega el nuevo servicio
           id = id + 1;
-          state.cart.push({ data, cantidad: 1, id: id });
+          state.cart.push({ data, cantidad: 1, id: data._id.$oid });
           state.count++;
           totalPrecio = state.total
           state.total = totalPrecio + data.precio;
@@ -133,9 +111,8 @@ export default new Vuex.Store({
       }
     },
     trashCart(state, data) {
-      let id = 1;
       let coincidencia = false;
-      let indice = -1;
+      state.indice = -1;
       let cantidad = 0;
       let eliminado = 0;
       let totalPrecio = 0;
@@ -149,44 +126,28 @@ export default new Vuex.Store({
         });
       } else {
         coincidencia = false;
-        indice = -1;
+        state.indice = -1;
         for (let i = 0; i < state.cart.length; i++) {
-          if (state.cart[i].data.codigo === data.codigo) {
+          if (state.cart[i].data._id.$oid === data._id.$oid) {
             coincidencia = true;
-            indice = i;
+            state.indice = i;
             break;
           }
         }
         //si el servicio está en el carrito, se elimina toda la data del servicio
         if (coincidencia === true) {
-          cantidad = state.cart[indice].cantidad;
-          eliminado = state.cart.splice([indice], 1);
+          cantidad = state.cart[state.indice].cantidad;
+
           for (let index = 0; index < cantidad; index++) {
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[indice].data.precio;
+            state.total = totalPrecio - state.cart[state.indice].data.precio;
           }
-
-          //cuando funcione la base de datos agregar este código y adaptarlo
-
-          // fetch(URL + 'carrito', {
-          //     method: 'DELETE',
-          //     headers: {
-          //         'Content-Type': 'application/json',
-          //     },
-          //     body: JSON.stringify({
-          //         codigo: producto.codigo,
-          //         cantidad: 1, // Restamos una unidad del carrito
-          //     }),
-          // })
-          //     .then(response => response.json())
-          //     .then(data => {
-          //         alert(data.message)
-          //     })
-          //     .catch(error => {
-          //         console.error('Error al restar el producto del carrito:', error)
-          //         alert('Error al restar el producto del carrito.')
-          //     })
+          eliminado = state.cart.splice([state.indice], 1);
+          //actualizo los datos del localStorage que hay en el estado
+          localStorage.setItem("cart", JSON.stringify(state.cart));
+          coincidencia = false;
+          state.indice = -1;
 
           swal({
             title: `Se eliminó del carrito`,
@@ -209,30 +170,11 @@ export default new Vuex.Store({
     minusCart(state, data) {
       let id = 1;
       let coincidencia = false;
-      let indice = -1;
+      state.indice = -1;
       let cantidad = 0;
       let eliminado = 0;
       let totalPrecio = 0;
       if (state.cart.length === 0) {
-        // fetch(URL + 'carrito', {
-        //     method: 'DELETE',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         codigo: producto.codigo,
-        //         cantidad: 1, // Restamos una unidad del carrito
-        //     }),
-        // })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         alert(data.message)
-        //     })
-        //     .catch(error => {
-        //         console.error('Error al restar el producto del carrito:', error)
-        //         alert('Error al restar el producto del carrito.')
-        //     })
-
         swal({
           title: `Carrito Vacío`,
           text: `No hay nada en el carrito`,
@@ -242,33 +184,32 @@ export default new Vuex.Store({
         });
       } else {
         coincidencia = false;
-        indice = -1;
+        state.indice = -1;
         for (let i = 0; i < state.cart.length; i++) {
           if (state.cart[i].data.codigo === data.codigo) {
             coincidencia = true;
-            indice = i;
+            state.indice = i;
             break;
           }
         }
         //si el servicio está en el carrito, se resta una unidad
         if (coincidencia === true) {
-          if (state.cart[indice].cantidad > 1) {
+          if (state.cart[state.indice].cantidad > 1) {
             //si el servicio tiene más de 1, se elimina una unidad de la cantidad, de los contrario no se hace nada
-            cantidad = state.cart[indice].cantidad - 1;
-            state.cart[indice].cantidad = cantidad;
+            cantidad = state.cart[state.indice].cantidad - 1;
+            state.cart[state.indice].cantidad = cantidad;
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[indice].data.precio;
+            state.total = totalPrecio - state.cart[state.indice].data.precio;
+            saveCart()
 
-            //lo quito porque es redundante
-
-            // swal({
-            //     title: `Se quitó una unidad`,
-            //     text: `del servicio ${data.servicio}`,
-            //     icon: "success",
-            //     buttons: false,
-            //     timer: 1000,
-            // })
+            swal({
+              title: `Se quitó una unidad`,
+              text: `del servicio ${data.servicio}`,
+              icon: "success",
+              buttons: false,
+              timer: 1000,
+            })
           } else {
             swal({
               title: `Solo hay una unidad, elimínalo`,
@@ -326,18 +267,7 @@ export default new Vuex.Store({
       window.localStorage.setItem('cart', parsed);
 
     },
-    // obtenerCarrito() {
-    //   fetch(URL + "carrito")
-    //     .then((response) => response.json())
-    //     .then((data) => {
-    //       state.cart = data;
-    //       this.mostrarCarrito = true;
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error al obtener el carrito:", error);
-    //       alert("Error al obtener el carrito.");
-    //     });
-    // },
+
   },
   actions: {
     // obtenerServicios(state, data) {

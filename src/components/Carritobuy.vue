@@ -18,6 +18,7 @@
           <table>
             <thead>
               <tr>
+                <th>Aplicación</th>
                 <th>Servicio</th>
                 <th>Precio</th>
                 <th>Cantidad</th>
@@ -34,7 +35,8 @@
                             si quiero hacer pruebas del carrito hasta que tenga data, traerla de data1, 
                             para ello cambiar en v-for cart por data1
                             -->
-              <tr v-for="c in cart" :key="c.id">
+              <tr v-for="c in cart" :key="c.data._id.$oid">
+                <td>{{ c.data.aplicacion }}</td>
                 <td>{{ c.data.servicio }}</td>
                 <td>
                   {{ c.data.precio * c.cantidad }}
@@ -63,7 +65,8 @@
                 </td>
               </tr>
               <tr>
-                <td>TOTAL</td>
+                <td>TOTALES</td>
+                <td></td>
                 <td>{{ total }}</td>
                 <td>{{ count }}</td>
               </tr>
@@ -112,9 +115,6 @@ export default {
     }
     this.$store.state.count = cantidad;
     this.$store.state.total = totalPrecio;
-    console.log("cart-----------------------", this.$store.state.cart);
-    console.log("count-----------------------", this.$store.state.count);
-    console.log("total-----------------------", this.$store.state.total);
   },
   computed: {
     ...mapState(["data1", "data2", "data3", "cart", "count", "total"]),
