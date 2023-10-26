@@ -18,14 +18,7 @@ export default new Vuex.Store({
   },
   mutations: {
     ///ESTE ES EL MISMO QUE TENGO EN CARRITOBUY EN MOUNTED(), DEBO VER CÓMO LLEVAR 
-    ///PARA QUE FUNCIONE BIEN
-    //HAY QUE ARREGLAR VARIOS PROBLEMAS
-    //NO SUBÍ AL GITHUB ESTE CÓDIGO!!!!!!!!!!!!
-    //HAY QUE ARREGLAR:
-    //CUANDO ELIMINO UN SERVICIO NO SE ELIMINA DE LOCAL
-    //CUANDO RESTO UNA CONTIDAD NO SE MODIFICA EN LOCAL
-    //EN OCASIONES FUNCIONA MAL EL CÁLCULO DE COUNT Y TOTAL DEL PRECIO
-    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE-->listo
+
     obtenerCarrito() {
       if (localStorage.getItem("cart")) {
         try {
@@ -39,7 +32,7 @@ export default new Vuex.Store({
       let totalPrecio = 0;
       for (let i = 0; i < carrito.length; i++) {
         cantidad = cantidad + carrito[i].cantidad;
-        totalPrecio = totalPrecio + carrito[i].data.precio * carrito[i].cantidad;
+        totalPrecio = totalPrecio + parseFloat(carrito[i].data.precio) * carrito[i].cantidad;
       }
       state.count = cantidad;
       state.total = totalPrecio;
@@ -83,7 +76,7 @@ export default new Vuex.Store({
           state.cart[indice].cantidad = cantidad;
           state.count++;
           totalPrecio = state.total
-          state.total = totalPrecio + state.cart[indice].data.precio;
+          state.total = totalPrecio + parseFloat(state.cart[indice].data.precio);
           localStorage.setItem("cart", JSON.stringify(state.cart));
           swal({
             title: `Se agregó una unidad más  `,
@@ -98,7 +91,7 @@ export default new Vuex.Store({
           state.cart.push({ data, cantidad: 1, id: data._id.$oid });
           state.count++;
           totalPrecio = state.total
-          state.total = totalPrecio + data.precio;
+          state.total = totalPrecio + parseFloat(data.precio);
           localStorage.setItem("cart", JSON.stringify(state.cart));
           swal({
             title: `${data.servicio}`,
@@ -141,7 +134,7 @@ export default new Vuex.Store({
           for (let index = 0; index < cantidad; index++) {
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[state.indice].data.precio;
+            state.total = totalPrecio - parseFloat(state.cart[state.indice].data.precio);
           }
           eliminado = state.cart.splice([state.indice], 1);
           //actualizo los datos del localStorage que hay en el estado
@@ -200,16 +193,16 @@ export default new Vuex.Store({
             state.cart[state.indice].cantidad = cantidad;
             state.count--;
             totalPrecio = state.total
-            state.total = totalPrecio - state.cart[state.indice].data.precio;
+            state.total = totalPrecio - parseFloat(state.cart[state.indice].data.precio);
             localStorage.setItem("cart", JSON.stringify(state.cart));
 
-            swal({
-              title: `Se quitó una unidad`,
-              text: `del servicio ${data.servicio}`,
-              icon: "success",
-              buttons: false,
-              timer: 1000,
-            })
+            // swal({
+            //   title: `Se quitó una unidad`,
+            //   text: `del servicio ${data.servicio}`,
+            //   icon: "success",
+            //   buttons: false,
+            //   timer: 1000,
+            // })
           } else {
             swal({
               title: `Solo hay una unidad, elimínalo`,

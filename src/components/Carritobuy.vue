@@ -28,13 +28,6 @@
               </tr>
             </thead>
             <tbody>
-              <!-- por ahora no hay nada en el carrito, porque se borra al cambiar de página, tengo que solucionarlo
-                            guardando en localstorage
-                            y de esta manera sólo pido todo una sola vez a la base de datos
-                            pero cuando agrego y borro, hacerlo en tiempo real, seguramente es más lento
-                            si quiero hacer pruebas del carrito hasta que tenga data, traerla de data1, 
-                            para ello cambiar en v-for cart por data1
-                            -->
               <tr v-for="c in cart" :key="c.data._id.$oid">
                 <td>{{ c.data.aplicacion }}</td>
                 <td>{{ c.data.servicio }}</td>
@@ -79,7 +72,6 @@
 </template>
 
 <script>
-import swal from "sweetalert";
 import { mapState, mapMutations } from "vuex";
 export default {
   name: "Carrito",
@@ -91,14 +83,7 @@ export default {
   }),
   mounted() {
     ///ESTE ES EL MISMO QUE TENGO EN CARRITOBUY EN MOUNTED(), DEBO VER CÓMO LLEVAR
-    ///PARA QUE FUNCIONE BIEN
-    //HAY QUE ARREGLAR VARIOS PROBLEMAS
-    //NO SUBÍ AL GITHUB ESTE CÓDIGO!!!!!!!!!!!!
-    //HAY QUE ARREGLAR:
-    //CUANDO ELIMINO UN SERVICIO NO SE ELIMINA DE LOCAL
-    //CUANDO RESTO UNA CONTIDAD NO SE MODIFICA EN LOCAL
-    //EN OCASIONES FUNCIONA MAL EL CÁLCULO DE COUNT Y TOTAL DEL PRECIO
-    //TAMBIÉN ME ESTÁ DANDO UN ERROR DE KEY, A TODOS LOS ELEMENTOS DE CART LE PONE ID=2, VER CÓMO SE HACE
+
     if (localStorage.getItem("cart")) {
       try {
         this.$store.state.cart = JSON.parse(localStorage.getItem("cart"));
@@ -111,7 +96,8 @@ export default {
     let totalPrecio = 0;
     for (let i = 0; i < carrito.length; i++) {
       cantidad = cantidad + carrito[i].cantidad;
-      totalPrecio = totalPrecio + carrito[i].data.precio * carrito[i].cantidad;
+      totalPrecio =
+        totalPrecio + parseFloat(carrito[i].data.precio) * carrito[i].cantidad;
     }
     this.$store.state.count = cantidad;
     this.$store.state.total = totalPrecio;
