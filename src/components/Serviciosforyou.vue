@@ -163,9 +163,7 @@ export default {
   data: () => ({
     titulo: "Carrito",
     section1: "Manos",
-
     section2: "Pies",
-
     section3: "Pestañas",
     mostrarCarrito: false,
   }),
@@ -277,8 +275,8 @@ export default {
     this.$store.state.data1 = [];
     this.$store.state.data2 = [];
     this.$store.state.data3 = [];
-    const url = "https://back-end-mariana-nails.vercel.app";
-    fetch(url + "/servicios", {
+    const URL = process.env.VUE_APP_ROOT_API_INVENTARIO;
+    fetch(URL + "/servicios", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
